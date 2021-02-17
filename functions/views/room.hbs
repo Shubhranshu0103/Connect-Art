@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect Art Rooms</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container-fluid pt-3">
+        <div class="row">
+            <div class='col-md-2'>
+                <h1> Connect Art</h1>
+            </div>
+            <div class='col-md-2' id="colorPicker">
+                <h5>Color Picker</h5>
+            </div>
+            <div class='col-md-2'>
+                <button id="clearArt" type="button" class="btn btn-danger btn-lg">Delete Drawing</button>
+            </div>
+
+            <div class='col-md-4'>
+                <button id="saveArt" type="button" class="btn btn-success btn-lg">Save Drawing</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+
+                <h3 id='roomID'>Room Id : {{id}}</h3>
+            </div>
+            <div class="col-md-6">
+                <h4>Instructions:</h4>
+                <h5> Left Click : Pen | Right Click : Eraser</h5>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10" id="canvasContainer"></div>
+        </div>
+
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/sketch.js"></script>
+</body>
+
+</html>
