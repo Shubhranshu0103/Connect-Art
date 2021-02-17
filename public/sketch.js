@@ -12,15 +12,29 @@ firebase.initializeApp(firebaseConfig);
 
 let roomID = document.getElementById('roomID').textContent;
 let pointsDB = firebase.database().ref(`Rooms/${roomID}/points`);
-let points = [];
+let points = [];        /**
+                            Points Properties:
+                                x : x coordinate of the point
+                                y : y coordinate of the point
+                                color : color of the pen
+                                type : pentype, whether pen needs to draw or erase
+
+                        */
 let canvas;
 let colorPicker;
 let backGroundColor = 230;
 let penWidth = 5;
 let eraserWidth = 30;
+const PEN_TYPE = {
+    PEN_UP: "penUp",
+    PEN_DOWN: "penDown"
+};
+
+
+
 function drawPoint() {
 
-    let penType = mouseButton === LEFT ? "penDown" : "penUp";
+    let penType = mouseButton === LEFT ? PEN_TYPE.PEN_DOWN : PEN_TYPE.PEN_UP;
     pointsDB.push({
         x: mouseX,
         y: mouseY,
@@ -37,13 +51,12 @@ function drawPointIfMousePressed() {
 
 
 function setup() {
+
     canvas = createCanvas(2 * windowWidth / 3, 2 * windowHeight / 3);
     canvas.parent('canvasContainer');
     background(backGroundColor);
-    //fill(0);
 
     colorPicker = createColorPicker('#ed225d');
-    //colorPicker.position(50, 50);
     colorPicker.parent('colorPicker');
 
 
@@ -66,9 +79,8 @@ function draw() {
     for (let i = 0; i < points.length; i++) {
 
         strokeWeight(0);
-        //if (i < 10)
-        //console.log(points[i].color);
-        if (points[i].type == "penDown") {
+
+        if (points[i].type == PEN_TYPE.PEN_DOWN) {
             let rgb = points[i].color;
             if (!rgb)
                 fill('#000000');
@@ -82,32 +94,5 @@ function draw() {
             circle(points[i].x, points[i].y, eraserWidth);
         }
 
-
-
-
-
-
     }
 }
-
-
-$('#clearArt').on('click', clearArt)
-
-function clearArt() {
-    console.log('clearing art');
-    pointsDB.remove();
-    points = [];
-}
-
-$('#saveArt').on('click', saveArt)
-
-function saveArt() {
-    console.log('saving Art');
-    saveCanvas(window.prompt("Save as", `Collab_Draw_${Date.now()}`));
-}
-
-
-document.getElementById('canvasContainer').addEventListener('contextmenu', function (e) {
-    // do something here... 
-    e.preventDefault();
-}, false);

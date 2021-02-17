@@ -6,6 +6,9 @@ const admin = require('firebase-admin');
 const bodyParser = require('body-parser');
 const { domain } = require('./config.json');
 const app = express();
+
+
+
 app.engine('hbs', engines.handlebars);
 app.set('views', './views');
 app.set('view engine', 'hbs');
@@ -26,33 +29,38 @@ async function checkRoom(room) {
         return snap.child(room).exists();
     })
 }
+
+
 async function putData() {
     let db = admin.database();
     let ref = db.ref("Rooms");
 
     let newRoomRef = ref.push();
     newRoomRef.set({
-        participants: 1
+        participants: 1         //dummy value
     });
 
     console.log("Data Inserted");
     return newRoomRef.key;
 }
 
+// For Creating Room
 app.post('/put_data', async (req, res) => {
 
     console.log("Inserting Data");
     let insert = await putData();
     console.log("Inserting: " + insert);
     res.json({ roomURL: domain + "room/" + insert });
-})
+});
+
+// For getting index page
 app.get('/', async (request, response) => {
 
     response.render('index');
 
 });
 
-
+//For getting Room Page
 app.get('/room/:id', async (req, res) => {
 
     let roomExists = await checkRoom(req.params.id);
